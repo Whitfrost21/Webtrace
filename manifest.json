@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "WebTrace",
+  "version": "0.1.0",
+  "description": "Website data transparency and privacy auditing.",
+  "permissions": [
+    "webRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/index.js",
+    "type": "module"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "webtrace-extension",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.7",
+    "typescript": "^5.0.0"
+  }
+}
