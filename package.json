@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "build": "npm run typecheck && node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/chrome": "^0.2.7",
-    "typescript": "^5.0.0"
+    "esbuild": "^0.28.2",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "tldts": "^7.4.11"
   }
 }

@@ -1,15 +1,18 @@
+import { getDomain } from "tldts";
+
 export type RequestParty = "first-party" | "third-party";
+export function getRegistrableDomain(url:string):string |null {
+ return getDomain(url) 
+}
 
 export function classifyRequest(
   pageUrl: string,
   requestUrl: string
 ): RequestParty {
-  const page = new URL(pageUrl);
-  const request = new URL(requestUrl);
+  const pageDomain = getRegistrableDomain(pageUrl);
+  const requestDomain = getRegistrableDomain(requestUrl)
+  
+  if(!pageDomain||!requestDomain)return "third-party"
 
-  if (page.hostname === request.hostname) {
-    return "first-party";
-  }
-
-  return "third-party";
+ return pageDomain==requestDomain?"first-party" :"third-party"
 }
