@@ -39,3 +39,36 @@ observeRequests((details) => {
     timestamp: details.timeStamp
   });
 });
+
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message?.type !== "DETECTION_EVENT") return;
+
+  const tabId = sender.tab?.id;
+  const pageUrl = sender.tab?.url;
+
+  if (tabId === undefined || !pageUrl) return;
+
+  const payload = message.payload;
+
+const validKinds = ["storage", "geolocation"];
+
+if (
+  !payload ||
+  !validKinds.includes(payload.kind) ||
+  typeof payload.api !== "string" ||
+  typeof payload.action !== "string" ||
+  typeof payload.timestamp !== "number"
+) {
+  return;
+}
+
+console.log(`[WebTrace] ${payload.kind} detection`, {
+  type: "detection",
+  kind: payload.kind,
+  timestamp: payload.timestamp,
+  tabId,
+  pageUrl,
+  api: payload.api,
+  action: payload.action
+});
+});
