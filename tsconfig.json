@@ -7,7 +7,9 @@
     "noEmitOnError": true,
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["chrome"]
+    "types": ["chrome"],
+    "sourceMap":false
   },
-  "include": ["src"]
+  "include": [ "src/content/**/*.ts",
+    "src/detectors/**/*.ts"]
 }

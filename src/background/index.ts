@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
   const payload = message.payload;
 
-const validKinds = ["storage", "geolocation"];
+const validKinds = ["storage", "geolocation", "cookie","media"];
 
 if (
   !payload ||
@@ -58,6 +58,26 @@ if (
   typeof payload.api !== "string" ||
   typeof payload.action !== "string" ||
   typeof payload.timestamp !== "number"
+) {
+  return;
+}
+
+if (
+  payload.kind === "cookie" &&
+  (
+    payload.api !== "document.cookie" ||
+    !["get", "set"].includes(payload.action)
+  )
+) {
+  return;
+}
+
+if (
+  payload.kind === "media" &&
+  (
+    payload.api !== "navigator.mediaDevices.getUserMedia" ||
+    payload.action !== "getUserMedia"
+  )
 ) {
   return;
 }
