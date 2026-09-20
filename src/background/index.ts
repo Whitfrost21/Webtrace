@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
   const payload = message.payload;
 
-const validKinds = ["storage", "geolocation", "cookie","media"];
+const validKinds = ["storage", "geolocation", "cookie","media","canvas","webrtc"];
 
 if (
   !payload ||
@@ -77,6 +77,29 @@ if (
   (
     payload.api !== "navigator.mediaDevices.getUserMedia" ||
     payload.action !== "getUserMedia"
+  )
+) {
+  return;
+}
+
+if (
+  payload.kind === "canvas" &&
+  (
+    ![
+      "HTMLCanvasElement.toDataURL",
+      "CanvasRenderingContext2D.getImageData"
+    ].includes(payload.api) ||
+    !["toDataURL", "getImageData"].includes(payload.action)
+  )
+) {
+  return;
+}
+
+if (
+  payload.kind === "webrtc" &&
+  (
+    payload.api !== "RTCPeerConnection" ||
+    payload.action !== "constructor"
   )
 ) {
   return;
