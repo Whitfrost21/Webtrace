@@ -11,5 +11,5 @@
     "sourceMap":false
   },
   "include": [ "src/content/**/*.ts",
-    "src/detectors/**/*.ts"]
+    "src/detectors/**/*.ts","src/storage/**/*.ts","src/types/**/*.ts"]
 }

@@ -4,7 +4,7 @@ import {
   setTabUrl,getTabUrl,
   removeTab
 } from "./tabContext.js";
-
+import {addEvent} from "../storage/eventStore.js"
 console.log("WebTrace background service worker started");
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
@@ -22,25 +22,40 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   removeTab(tabId);
 });
 
-observeRequests((details) => {
+observeRequests(async(details) => {
   const pageUrl=getTabUrl(details.tabId);
   if(!pageUrl){
     return;
   }
   const party=classifyRequest(pageUrl,details.url);
-  console.log("[WebTrace]", {
-    requestId: details.requestId,
-    pageUrl,
-    destination:details.url,
-    party,
-    method: details.method,
-    tabId: details.tabId,
-    type: details.type,
-    timestamp: details.timeStamp
-  });
+  // for debugging --- mystyle to code
+  // console.log("[WebTrace]", {
+  //   requestId: details.requestId,
+  //   pageUrl,
+  //   destination:details.url,
+  //   party,
+  //   method: details.method,
+  //   tabId: details.tabId,
+  //   type: details.type,
+  //   timestamp: details.timeStamp
+  // });
+
+  //store in localstorage
+await addEvent({
+  type: "network",
+  requestId: details.requestId,
+  pageUrl,
+  destination: details.url,
+  party,
+  method: details.method,
+  tabId: details.tabId,
+  resourceType: details.type,
+  timestamp: details.timeStamp
 });
 
-chrome.runtime.onMessage.addListener((message, sender) => {
+});
+
+chrome.runtime.onMessage.addListener(async(message, sender) => {
   if (message?.type !== "DETECTION_EVENT") return;
 
   const tabId = sender.tab?.id;
@@ -105,7 +120,18 @@ if (
   return;
 }
 
-console.log(`[WebTrace] ${payload.kind} detection`, {
+// console.log(`[WebTrace] ${payload.kind} detection`, {
+//   type: "detection",
+//   kind: payload.kind,
+//   timestamp: payload.timestamp,
+//   tabId,
+//   pageUrl,
+//   api: payload.api,
+//   action: payload.action
+// });
+
+//store detection to localstorage
+await addEvent({
   type: "detection",
   kind: payload.kind,
   timestamp: payload.timestamp,
@@ -114,4 +140,5 @@ console.log(`[WebTrace] ${payload.kind} detection`, {
   api: payload.api,
   action: payload.action
 });
+
 });
