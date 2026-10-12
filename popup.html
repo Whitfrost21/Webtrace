@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebTrace</title>
+
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172033;
+        --muted: #697586;
+        --line: #e5eaf1;
+        --page: #f4f7fb;
+        --accent: #245eea;
+        --soft: #eaf0ff;
+        --danger: #a33333;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 380px;
+        margin: 0;
+        padding: 16px;
+        color: var(--ink);
+        background: var(--page);
+        font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mark {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        color: white;
+        background: var(--accent);
+        font-size: 19px;
+        font-weight: 750;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 19px;
+      }
+
+      .subtitle {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .pill {
+        padding: 5px 8px;
+        border: 1px solid #c9d8ff;
+        border-radius: 999px;
+        color: #244cb7;
+        background: var(--soft);
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 18px 0 9px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 13px;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .card {
+        min-height: 80px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: white;
+      }
+
+      .card-label {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .number {
+        margin-top: 5px;
+        font-size: 25px;
+        font-weight: 760;
+        line-height: 1.1;
+      }
+
+      .note {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .accent {
+        border-color: #d6e1ff;
+        background: linear-gradient(145deg, #fff, #f2f6ff);
+      }
+
+      .accent .number {
+        color: var(--accent);
+      }
+
+      .search {
+        width: 100%;
+        padding: 9px 10px;
+        margin-bottom: 5px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        font: inherit;
+      }
+
+      #sites,
+      #blockedList {
+        max-height: 190px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: white;
+      }
+
+      .site {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 11px 12px;
+        border: 0;
+        border-bottom: 1px solid #edf0f5;
+        border-radius: 0;
+        text-align: left;
+        background: white;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .site:hover {
+        background: #f6f8ff;
+      }
+
+      .rowtop {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .sitename,
+      .domain {
+        font-weight: 700;
+        overflow-wrap: anywhere;
+      }
+
+      .count {
+        color: var(--muted);
+        font-size: 10px;
+        white-space: nowrap;
+      }
+
+      .meta {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .bar {
+        height: 4px;
+        margin-top: 8px;
+        border-radius: 99px;
+        background: #edf1f7;
+        overflow: hidden;
+      }
+
+      .bar > div {
+        height: 100%;
+        background: var(--accent);
+      }
+
+      .empty {
+        padding: 20px 14px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .view[hidden] {
+        display: none !important;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .back {
+        display: inline-flex;
+        width: auto;
+        align-items: center;
+        gap: 5px;
+        margin: 0 0 10px;
+        padding: 6px 9px;
+        border: 1px solid #d6e1ff;
+        border-radius: 8px;
+        color: #244cb7;
+        background: var(--soft);
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .detail {
+        padding: 13px;
+        margin-bottom: 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: white;
+      }
+
+      .detailname {
+        margin: 3px 0 12px;
+        font-size: 16px;
+        font-weight: 760;
+        overflow-wrap: anywhere;
+      }
+
+      .detailstats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .detailstat {
+        padding: 10px;
+        border-radius: 9px;
+        background: #f6f8fb;
+      }
+
+      .detailstat strong {
+        display: block;
+        font-size: 20px;
+      }
+
+      .detailstat span {
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .domainrow {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 0;
+        border-bottom: 1px solid #edf0f5;
+      }
+
+      .domainrow:last-child {
+        border-bottom: 0;
+      }
+
+      .domaininfo {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 5px;
+        margin-top: 4px;
+        border-radius: 5px;
+        background: #f0f3f8;
+        color: #596579;
+        font-size: 9px;
+      }
+
+      .tag.blocked {
+        background: #fff1f1;
+        color: var(--danger);
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex: 0 0 auto;
+        color: var(--muted);
+        font-size: 10px;
+        cursor: pointer;
+      }
+
+      .toggle input {
+        margin: 0;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .group {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid #edf0f5;
+      }
+
+      .group:last-child {
+        border-bottom: 0;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        margin-top: 14px;
+      }
+
+      .actions button {
+        min-height: 37px;
+        padding: 9px 10px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #exportButton {
+        color: white;
+        background: var(--accent);
+      }
+
+      #clear-data {
+        color: var(--danger);
+        border-color: #f0d9d9;
+        background: white;
+      }
+
+      button:disabled {
+        opacity: 0.55;
+        cursor: wait;
+      }
+
+      #status {
+        min-height: 15px;
+        margin: 9px 2px 0;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .footer {
+        margin-top: 5px;
+        color: #8a94a4;
+        text-align: center;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="brand">
+        <div class="mark">W</div>
+        <div>
+          <h1>WebTrace</h1>
+          <p class="subtitle">Your browser activity, made visible</p>
+        </div>
+      </div>
+      <div class="pill">LOCAL AUDIT</div>
+    </header>
+
+    <main id="overviewView" class="view">
+      <section class="stats">
+        <div class="card accent">
+          <div class="card-label">Events captured</div>
+          <div class="number" id="eventCount">—</div>
+          <div class="note">Latest session</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Sites observed</div>
+          <div class="number" id="siteCount">—</div>
+          <div class="note">Latest session</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">API detections</div>
+          <div class="number" id="detectionCount">—</div>
+          <div class="note">Recorded API events</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Blocked domains</div>
+          <div class="number" id="blockedCount">0</div>
+          <div class="note">Active WebTrace rules</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="heading">
+          <h2>Activity by site</h2>
+          <span class="muted">Latest session</span>
+        </div>
+
+        <input
+          class="search"
+          id="siteSearch"
+          type="search"
+          placeholder="Find a site…"
+          aria-label="Find a site"
+        />
+
+        <div id="sites">
+          <div class="empty">Loading activity…</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="heading">
+          <h2>Blocked domains</h2>
+          <span class="muted">Across websites</span>
+        </div>
+
+        <div id="blockedList">
+          <div class="empty">No domains blocked.</div>
+        </div>
+      </section>
+    </main>
+
+    <main id="siteDetailView" class="view" hidden>
+      <button type="button" class="back" id="backButton">← All sites</button>
+
+      <section class="detail">
+        <div class="muted">SITE ACTIVITY</div>
+        <div class="detailname" id="detailSiteName"></div>
+
+        <div class="detailstats">
+          <div class="detailstat">
+            <strong id="detailEventCount">0</strong>
+            <span>Total events</span>
+          </div>
+
+          <div class="detailstat">
+            <strong id="detailApiCount">0</strong>
+            <span>API detection events</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail">
+        <div class="heading" style="margin-top: 0">
+          <h2>Third-party destinations</h2>
+        </div>
+
+        <p class="muted">
+          Observed destination domains. Service names and categories will come
+          from the analyzer. Blocking applies to a domain across sites.
+        </p>
+
+        <div id="thirdParties"></div>
+      </section>
+
+      <section class="detail">
+        <div class="heading" style="margin-top: 0">
+          <h2>Browser API detections</h2>
+        </div>
+
+        <div id="detailGroups"></div>
+        <p class="muted" id="detailNote"></p>
+      </section>
+    </main>
+
+    <div class="actions">
+      <button id="exportButton">Export JSON</button>
+      <button id="clear-data">Clear data</button>
+    </div>
+
+    <p id="status" role="status" aria-live="polite"></p>
+    <div class="footer">Blocking preferences are separate from audit history.</div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -5,8 +5,10 @@
   "description": "Website data transparency and privacy auditing.",
   "permissions": [
     "webRequest",
-    "storage"
+    "storage",
+    "declarativeNetRequest"
   ],
+  "action":{"default_popup":"popup.html"},
   "host_permissions": [
     "<all_urls>"
   ],

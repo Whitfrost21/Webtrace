@@ -10,6 +10,6 @@
     "types": ["chrome"],
     "sourceMap":false
   },
-  "include": [ "src/content/**/*.ts",
+  "include": ["src/background/**/*.ts","src/popup.ts", "src/content/**/*.ts",
     "src/detectors/**/*.ts","src/storage/**/*.ts","src/types/**/*.ts"]
 }
