@@ -40,6 +40,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 
+  if (message?.type === "SEND_TO_ANALYZER") {
+    exportSessionsJson()
+      .then(async data => {
+        const response = await fetch("http://127.0.0.1:8080/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+          const message = await response.text();
+          throw new Error(message || `Analyzer returned HTTP ${response.status}`);
+        }
+        const report = await response.json();
+        sendResponse({ ok: true, report });
+      })
+      .catch(error => sendResponse({
+        ok: false,
+        error: error instanceof Error
+          ? error.message
+          : "Could not connect to the local analyzer."
+      }));
+    return true;
+  }
+
   if (message?.type !== "DETECTION_EVENT") return;
 
   const tabId = sender.tab?.id;

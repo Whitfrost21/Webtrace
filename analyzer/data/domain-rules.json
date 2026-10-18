@@ -1,0 +1,37 @@
+{
+  "rules": [
+    {
+      "ruleId": "google-analytics-main",
+      "pattern": "google-analytics.com",
+      "matchType": "domain-and-subdomains",
+      "serviceId": "google-analytics",
+      "categories": ["analytics"],
+      "status": "active",
+      "confidence": "high",
+      "sources": ["curated-webtrace"],
+      "verifiedAt": "2026-10-01T00:00:00Z"
+    },
+    {
+  "ruleId": "duckduckgo-improvement-host",
+  "pattern": "improving.duckduckgo.com",
+  "matchType": "exact",
+  "serviceId": "duckduckgo-improvement",
+  "categories": ["product-improvement"],
+  "status": "active",
+  "confidence": "high",
+  "sources": ["duckduckgo-improvement-docs"],
+  "verifiedAt": "2026-10-15T00:00:00Z"
+},
+{
+  "ruleId": "wikimedia-auth-host",
+  "pattern": "auth.wikimedia.org",
+  "matchType": "exact",
+  "serviceId": "wikimedia-auth",
+  "categories": ["authentication"],
+  "status": "active",
+  "confidence": "high",
+  "sources": ["wikimedia-auth-docs"],
+  "verifiedAt": "2026-10-15T00:00:00Z"
+}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "sources": [
+    {
+      "sourceId": "curated-webtrace",
+      "name": "WebTrace Curated Registry",
+      "sourceType": "manual",
+      "datasetVersion": "1.0"
+    },
+{
+  "sourceId": "duckduckgo-improvement-docs",
+  "name": "DuckDuckGo Product Improvement Documentation",
+  "sourceType": "manual",
+  "sourceUrl": "https://duckduckgo.com/duckduckgo-help-pages/privacy/atb",
+  "datasetVersion": "2026-10"
+},
+{
+  "sourceId": "wikimedia-auth-docs",
+  "name": "Wikimedia Authentication Documentation",
+  "sourceType": "manual",
+  "sourceUrl": "https://wikitech.wikimedia.org/wiki/Auth.wikimedia.org",
+  "datasetVersion": "2026-10"
+},
+{
+  "sourceId": "google-tag-docs",
+  "name": "Google Tag Platform Documentation",
+  "sourceType": "manual",
+  "sourceUrl": "https://developers.google.com/tag-platform/gtagjs",
+  "datasetVersion": "2026-10"
+}
+  ]
+}

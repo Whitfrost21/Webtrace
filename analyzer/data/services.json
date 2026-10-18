@@ -1,0 +1,25 @@
+{
+  "services": [
+    {
+      "serviceId": "google-analytics",
+      "name": "Google Analytics",
+      "owner": "Google",
+      "categories": ["analytics"],
+      "description": "Website analytics service"
+    },
+{
+  "serviceId": "duckduckgo-improvement",
+  "name": "DuckDuckGo Product Improvement",
+  "owner": "DuckDuckGo",
+  "categories": ["product-improvement"],
+  "description": "DuckDuckGo's product-improvement measurement system"
+},
+{
+  "serviceId": "wikimedia-auth",
+  "name": "Wikimedia Authentication",
+  "owner": "Wikimedia Foundation",
+  "categories": ["authentication"],
+  "description": "Central authentication for Wikimedia projects"
+}
+]
+}
