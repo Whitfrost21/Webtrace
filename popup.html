@@ -358,6 +358,12 @@
         background: var(--accent);
       }
 
+      #sendButton {
+        grid-column: 1 / -1;
+        color: white;
+        background: #176b4b;
+      }
+
       #clear-data {
         color: var(--danger);
         border-color: #f0d9d9;
@@ -501,6 +507,7 @@
     <div class="actions">
       <button id="exportButton">Export JSON</button>
       <button id="clear-data">Clear data</button>
+      <button id="sendButton">Send to analyzer</button>
     </div>
 
     <p id="status" role="status" aria-live="polite"></p>

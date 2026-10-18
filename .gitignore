@@ -1,16 +1,33 @@
 
-# Node modules
+# Node.js dependencies
 node_modules/
+dashboard/node_modules/
 
 # Build output
-# dist/
+dist/
+dashboard/dist/
 
-# Coverage reports
-coverage/
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
 
 # Logs
-*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
 
-# IDE specific files
+# OS and editor files
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
+
+# Go build artifacts
+analyzer/*.exe
+analyzer/*.test
+analyzer/server
+
+# Generated analyzer data and reports (if applicable)
+analyzer/data/history/
+

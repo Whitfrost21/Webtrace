@@ -5,10 +5,14 @@
   "scripts": {
     "build": "npm run typecheck && node build.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dev:dashboard": "npm --prefix dashboard run dev",
+    "dev:analyzer": "cd analyzer && go run ./cmd/server",
+    "dev": "concurrently -k -n DASHBOARD,ANALYZER \"npm run dev:dashboard\" \"npm run dev:analyzer\""
   },
   "devDependencies": {
     "@types/chrome": "^0.2.7",
+    "concurrently": "^9.2.5",
     "esbuild": "^0.28.2",
     "jsdom": "^29.1.1",
     "typescript": "^5.0.0",
@@ -18,4 +22,3 @@
     "tldts": "^7.4.11"
   }
 }
-
