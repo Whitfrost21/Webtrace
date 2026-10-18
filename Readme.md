@@ -85,7 +85,7 @@ WebTrace supports direct submission of collected extension data to the Go analyz
 ## Install and build 
 
 ```
-git clone <repository-url>
+git clone https://github.com/Whitfrost21/Webtrace.git
 cd WebTrace
 
 npm install
