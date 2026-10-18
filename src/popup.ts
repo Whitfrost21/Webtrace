@@ -460,6 +460,26 @@ async function refresh(): Promise<void> {
   renderBlocked();
 }
 
+async function sendToAnalyzer(): Promise<void> {
+  const button = $("sendButton") as HTMLButtonElement;
+  button.disabled = true;
+  $("status").textContent = "Sending activity to the local analyzer…";
+
+  try {
+    const response = await chrome.runtime.sendMessage({ type: "SEND_TO_ANALYZER" });
+    if (!response?.ok) {
+      throw new Error(response?.error ?? "Could not send data to the analyzer.");
+    }
+    $("status").textContent = "Report analyzed and saved to dashboard history.";
+  } catch (error) {
+    $("status").textContent = error instanceof Error
+      ? error.message
+      : "Could not connect to the analyzer. Start the Go server and try again.";
+  } finally {
+    button.disabled = false;
+  }
+}
+
 async function exportJson(): Promise<void> {
   const button = $("exportButton") as HTMLButtonElement;
   button.disabled = true;
@@ -501,6 +521,9 @@ $("siteSearch").addEventListener("input", () => {
 $("backButton").addEventListener("click", showOverview);
 $("exportButton").addEventListener("click", () => {
   void exportJson();
+});
+$("sendButton").addEventListener("click", () => {
+  void sendToAnalyzer();
 });
 
 $("clear-data").addEventListener("click", async () => {
