@@ -42,9 +42,13 @@ The project is designed to make collected browser activity easier to understand 
 - Provides session-level details alongside the combined report.
 - Maintains a history of analyzed reports for later review.
 
+![dashboard preview](assets/asset2.jpeg)
+
 ### Extension and Analyzer Integration
 
 WebTrace supports direct submission of collected extension data to the Go analyzer, removing the need for manual file transfer when using the integrated workflow. Manual JSON import remains available as an alternative.
+
+![extension preview](assets/asset1.jpeg)
 
 ## Technology sed
 
